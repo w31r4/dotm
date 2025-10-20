@@ -41,19 +41,18 @@ This command clones your bare dotfiles repository to `~/.dotfiles` and checks ou
 
 > **Note**: This initial version does not automatically handle conflicts with existing files (e.g., a default `.bashrc`). You may need to back them up manually if the checkout fails.
 
-**Step 2: Install all your tools**
+**Step 2: On-Demand Installation**
 
-Once your dotfiles (including `config.yaml`) are in place, you can install all the modules you've defined.
+`config.yaml` acts as your personal software repository. You can install any module from it on demand.
 
 ```bash
 # Install a single module
 ./dotm install zsh
 
-# Install multiple modules
+# Install multiple modules at once
 ./dotm install fzf pyenv eza
 
-# To install everything, you might create a script or alias
-# that reads all keys from the config and passes them to the install command.
+# The tool will automatically handle dependencies for you.
 ```
 
 ### 3. Safe Preview with Dry Run
@@ -64,7 +63,42 @@ To see what commands `dotm` *would* execute without actually changing anything, 
 ./dotm install --dry-run eza
 ```
 
-## Configuration (`config.yaml`)
+## Managing Your Module "Repository"
+
+Manually editing `config.yaml` can be tedious. `dotm` provides a suite of commands to manage your modules efficiently.
+
+### List Modules
+
+To see all the modules available in your `config.yaml`:
+
+```bash
+./dotm module list
+```
+
+### Add a New Module
+
+To add a new module, use the `module add` command with flags.
+
+**Example:** Adding `htop`
+
+```bash
+./dotm module add htop \
+  --description "Interactive process viewer" \
+  --check "command -v htop" \
+  --install-debian "sudo apt-get install -y htop" \
+  --install-macos "brew install htop"
+```
+This command will safely and correctly append the `htop` module to your `config.yaml`.
+
+### Remove a Module
+
+To remove a module you no longer need:
+
+```bash
+./dotm module remove htop
+```
+
+## Configuration File (`config.yaml`)
 
 The heart of `dotm` is the `config.yaml` file. Here's a breakdown of the structure:
 
