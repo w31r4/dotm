@@ -37,14 +37,14 @@ modules:
       default: ["x env use fzf"]
   pyenv:
     description: "Python version management"
-    dependencies: [x-cmd]
+    dependencies: [git]
     check: "command -v pyenv"
     install:
-      default: ["x env use pyenv"]
+      default: ["curl -fsSL https://pyenv.run | bash"]
     apply:
       - { strategy: "inject", target: "~/.zshrc", line: 'export PYENV_ROOT="$HOME/.pyenv"' }
-      - { strategy: "inject", target: "~/.zshrc", line: 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' }
-      - { strategy: "inject", target: "~/.zshrc", line: 'eval "$(pyenv init -)"' }
+      - { strategy: "inject", target: "~/.zshrc", line: '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' }
+      - { strategy: "inject", target: "~/.zshrc", line: 'eval "$(pyenv init - zsh)"' }
 
   # Eza: Installed via its custom script on Debian
   eza:
@@ -79,3 +79,24 @@ modules:
       default: ["git clone https://github.com/lukechilds/zsh-nvm ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-nvm"]
     apply:
       - { strategy: "inject", target: "~/.zshrc", line: "# To enable zsh-nvm, add 'zsh-nvm' to your plugins array in .zshrc" }
+
+  # Go programming language
+  go:
+    description: "Go programming language environment"
+    check: "command -v go"
+    install:
+      debian:
+        - "wget https://go.dev/dl/go1.25.3.linux-amd64.tar.gz"
+        - "sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.25.3.linux-amd64.tar.gz"
+        - "rm go1.25.3.linux-amd64.tar.gz"
+      macos: ["brew install go"]
+    apply:
+      - { strategy: "inject", target: "~/.zshrc", line: 'export PATH=$PATH:/usr/local/go/bin' }
+      - { strategy: "inject", target: "~/.profile", line: 'export PATH=$PATH:/usr/local/go/bin' }
+
+  # uv - Python package installer
+  uv:
+    description: "An extremely fast Python package installer and resolver"
+    check: "command -v uv"
+    install:
+      default: ["curl -LsSf https://astral.sh/uv/install.sh | sh"]
