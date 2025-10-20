@@ -21,10 +21,18 @@ func expandHome(path string) (string, error) {
 
 // InjectLine ensures a specific line is present in a file.
 // If the line already exists, it does nothing. Otherwise, it appends the line.
-func InjectLine(filePath, lineToInject string) error {
+func InjectLine(filePath, lineToInject string, dryRun bool) error {
 	expandedPath, err := expandHome(filePath)
 	if err != nil {
 		return fmt.Errorf("could not expand home directory in path '%s': %w", filePath, err)
+	}
+
+	// In dry run, we just state what we would do.
+	// We can't perfectly check if the line exists without reading the file,
+	// but we can state the intent.
+	if dryRun {
+		fmt.Printf("[DRY RUN] Would ensure line '%s' exists in file '%s'\n", lineToInject, expandedPath)
+		return nil
 	}
 
 	// Ensure the file exists, create if it doesn't

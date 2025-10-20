@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os/exec"
 	"runtime"
+	"strings"
 )
 
 // GetOS returns the current operating system (e.g., "linux", "darwin").
@@ -23,7 +24,17 @@ func GetOS() string {
 }
 
 // Execute runs a command and streams its output to stdout.
-func Execute(command string) error {
+func Execute(command string, dryRun bool) error {
+	if dryRun {
+		fmt.Printf("[DRY RUN] Would execute: %s\n", command)
+		// For checks in dry-run mode, we need to simulate failure
+		// to properly test the install path. A simple way is to check
+		// if the command is a 'check' command. This is a heuristic.
+		if strings.HasPrefix(command, "command -v") {
+			return fmt.Errorf("simulating check failure for dry run")
+		}
+		return nil
+	}
 	fmt.Printf("Executing: %s\n", command)
 
 	// Use sh -c to properly handle commands with pipes or multiple parts.

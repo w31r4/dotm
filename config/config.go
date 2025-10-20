@@ -13,11 +13,11 @@ type Config struct {
 
 // Module represents a single installable unit (e.g., zsh, fzf).
 type Module struct {
-	Description  string            `yaml:"description"`
-	Dependencies []string          `yaml:"dependencies"`
-	Check        string            `yaml:"check"`
-	Install      map[string]string `yaml:"install"`
-	Apply        []ApplyStep       `yaml:"apply"`
+	Description  string              `yaml:"description"`
+	Dependencies []string            `yaml:"dependencies"`
+	Check        string              `yaml:"check"`
+	Install      map[string][]string `yaml:"install"`
+	Apply        []ApplyStep         `yaml:"apply"`
 }
 
 // ApplyStep defines a single action to configure a dotfile.
