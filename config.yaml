@@ -1,0 +1,41 @@
+modules:
+  # Git is a common dependency
+  git:
+    description: "Git version control system"
+    check: "command -v git"
+    install:
+      debian: "sudo apt-get update && sudo apt-get install -y git"
+      macos: "brew install git"
+      arch: "sudo pacman -S --noconfirm git"
+
+  # Zsh module
+  zsh:
+    description: "Z shell, a powerful command-line interpreter"
+    dependencies:
+      - git
+    check: "command -v zsh"
+    install:
+      debian: "sudo apt-get update && sudo apt-get install -y zsh"
+      macos: "brew install zsh"
+      arch: "sudo pacman -S --noconfirm zsh"
+    # 'apply' section handles the dotfile configuration
+    apply:
+      - strategy: "inject"
+        # The file to inject content into
+        target: "~/.bashrc"
+        # The line to be injected, ensuring it sources our config
+        line: 'export ZSH="$HOME/.oh-my-zsh"; source $HOME/.dotfiles/.zshrc'
+      - strategy: "inject"
+        target: "~/.profile"
+        line: 'export ZSH="$HOME/.oh-my-zsh"; source $HOME/.dotfiles/.zshrc'
+
+  # FZF module as an example
+  fzf:
+    description: "A command-line fuzzy finder"
+    dependencies:
+      - git
+    check: "command -v fzf"
+    install:
+      debian: "sudo apt-get update && sudo apt-get install -y fzf"
+      macos: "brew install fzf"
+      arch: "sudo pacman -S --noconfirm fzf"
