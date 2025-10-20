@@ -100,3 +100,22 @@ modules:
     check: "command -v uv"
     install:
       default: ["curl -LsSf https://astral.sh/uv/install.sh | sh"]
+
+  # --- Oh My Zsh Plugins ---
+  omz-plugin-syntax-highlighting:
+    description: "Fish-like syntax highlighting for Zsh"
+    dependencies: [oh-my-zsh]
+    check: "test -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
+    install:
+      default: ["git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"]
+    apply:
+      - { strategy: "inject", target: "~/.zshrc", line: "# REMINDER: Add 'zsh-syntax-highlighting' to your plugins array in .zshrc to enable it." }
+
+  omz-plugin-autosuggestions:
+    description: "Fish-like autosuggestions for Zsh"
+    dependencies: [oh-my-zsh]
+    check: "test -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
+    install:
+      default: ["git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"]
+    apply:
+      - { strategy: "inject", target: "~/.zshrc", line: "# REMINDER: Add 'zsh-autosuggestions' to your plugins array in .zshrc to enable it." }
