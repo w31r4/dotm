@@ -22,9 +22,9 @@ This command will check for dependencies, install the required software,
 and apply the necessary dotfile configurations.`,
 	Args: cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		cfg, err := config.LoadConfig("config.yaml")
+		cfg, err := config.LoadConfig(configPath)
 		if err != nil {
-			log.Fatalf("Error loading config: %v", err)
+			log.Fatalf("Error loading config from %s: %v", configPath, err)
 		}
 
 		for _, moduleName := range args {

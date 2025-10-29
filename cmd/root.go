@@ -1,6 +1,5 @@
 /*
 Copyright © 2025 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
@@ -10,21 +9,29 @@ import (
 	"github.com/spf13/cobra"
 )
 
+const version = "0.1.0"
 
+var configPath string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "dotm",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
+	Short: "dotm is a declarative environment bootstrapper.",
+	Long: `dotm is a declarative environment bootstrapper designed to simplify
+and codify your dotfiles workflow. Define your toolchain once in YAML and
+install or update on any machine with confidence.
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	// Run: func(cmd *cobra.Command, args []string) { },
+Key commands include:
+- dotm install <modules...> to install specific tools
+- dotm module <subcommand> to manage entries in config.yaml
+- dotm config download/export to share or back up config
+- dotm repo sync to bootstrap your dotfiles repository`,
+	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
+		if configPath == "" {
+			configPath = "config.yaml"
+		}
+		return nil
+	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -37,15 +44,5 @@ func Execute() {
 }
 
 func init() {
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
-
-	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.dotm.yaml)")
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.PersistentFlags().StringVar(&configPath, "config", "", "config file (default is ./config.yaml)")
 }
-
-

@@ -9,6 +9,7 @@
 - **Idempotent**: Running the tool multiple times won't break your system. It checks before it acts.
 - **Extensible**: Easily add new software to your setup by defining a new module in the config.
 - **Powered by x-cmd**: Leverages the `x-cmd` universal package manager for simplified tool installation where possible.
+- **Configuration Management**: Export, validate, and share your configurations with ease.
 
 ## Quick Start
 
@@ -96,6 +97,90 @@ To remove a module you no longer need:
 
 ```bash
 ./dotm module remove htop
+```
+
+## Managing Configuration
+
+The `config` command provides powerful utilities for managing, exporting, and validating your configuration files.
+
+### Export/Download Configuration
+
+Export your configuration to share with others or create a backup:
+
+```bash
+# Export to stdout
+./dotm config export
+
+# Export to a specific file
+./dotm config export my-dotfiles-config.yaml
+
+# You can also use the 'download' alias
+./dotm config download backup.yaml
+```
+
+### View Configuration
+
+Display detailed information about your modules:
+
+```bash
+# Show summary of all modules
+./dotm config show
+
+# Show details of a specific module
+./dotm config show fzf
+```
+
+### Validate Configuration
+
+Check your configuration file for errors:
+
+```bash
+./dotm config validate
+```
+
+This validates:
+- YAML syntax
+- Missing required fields
+- Invalid module references in dependencies
+- Circular dependencies
+
+### Generate Templates
+
+Generate configuration templates for new modules:
+
+```bash
+# Generate a template for a specific module
+./dotm config template htop
+
+# Generate a minimal config.yaml template
+./dotm config template
+```
+
+### Copy Configuration
+
+Create backups of your configuration:
+
+```bash
+# Copy with default names
+./dotm config copy
+
+# Specify source and destination
+./dotm config copy config.yaml config.yaml.backup
+```
+
+## Shell Completion
+
+Enable shell completions for faster workflows:
+
+```bash
+# Bash (current session)
+source <(./dotm completion bash)
+
+# Zsh (permanent)
+./dotm completion zsh > "${fpath[1]}/_dotm"
+
+# Fish (current session)
+./dotm completion fish | source
 ```
 
 ## Configuration File (`config.yaml`)
