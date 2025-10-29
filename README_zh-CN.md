@@ -9,6 +9,7 @@
 - **幂等性**: 多次运行本工具不会对您的系统造成任何损害。它在执行操作前会进行检查。
 - **可扩展**: 通过在配置中定义一个新模块，您可以轻松地为您的环境添加新软件。
 - **x-cmd 驱动**: 在可能的情况下，利用 `x-cmd` 通用包管理器来简化工具的安装。
+- **配置管理**: 轻松导出、验证并分享您的配置。
 
 ## 快速开始
 
@@ -96,6 +97,90 @@ go build
 
 ```bash
 ./dotm module remove htop
+```
+
+## 配置管理
+
+`config` 命令提供了强大的实用工具来管理、导出和验证您的配置文件。
+
+### 导出/下载配置
+
+导出您的配置以与他人共享或创建备份：
+
+```bash
+# 导出到标准输出
+./dotm config export
+
+# 导出到指定文件
+./dotm config export my-dotfiles-config.yaml
+
+# 您也可以使用 'download' 别名
+./dotm config download backup.yaml
+```
+
+### 查看配置
+
+显示有关您的模块的详细信息：
+
+```bash
+# 显示所有模块的摘要
+./dotm config show
+
+# 显示特定模块的详细信息
+./dotm config show fzf
+```
+
+### 验证配置
+
+检查您的配置文件是否有错误：
+
+```bash
+./dotm config validate
+```
+
+验证内容包括：
+- YAML 语法
+- 缺少的必需字段
+- 依赖项中的无效模块引用
+- 循环依赖
+
+### 生成模板
+
+为新模块生成配置模板：
+
+```bash
+# 为特定模块生成模板
+./dotm config template htop
+
+# 生成最小的 config.yaml 模板
+./dotm config template
+```
+
+### 复制配置
+
+创建配置备份：
+
+```bash
+# 使用默认名称复制
+./dotm config copy
+
+# 指定源和目标
+./dotm config copy config.yaml config.yaml.backup
+```
+
+## Shell 补全
+
+启用 shell 补全以加快工作流程：
+
+```bash
+# Bash（当前会话）
+source <(./dotm completion bash)
+
+# Zsh（永久生效）
+./dotm completion zsh > "${fpath[1]}/_dotm"
+
+# Fish（当前会话）
+./dotm completion fish | source
 ```
 
 ## 配置文件 (`config.yaml`)

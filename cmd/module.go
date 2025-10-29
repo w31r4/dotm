@@ -20,9 +20,9 @@ var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all available modules",
 	Run: func(cmd *cobra.Command, args []string) {
-		cfg, err := config.LoadConfig("config.yaml")
+		cfg, err := config.LoadConfig(configPath)
 		if err != nil {
-			log.Fatalf("Error loading config: %v", err)
+			log.Fatalf("Error loading config from %s: %v", configPath, err)
 		}
 		fmt.Println("Available modules:")
 		// Sort keys for consistent output
@@ -43,9 +43,9 @@ var removeCmd = &cobra.Command{
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		moduleName := args[0]
-		cfg, err := config.LoadConfig("config.yaml")
+		cfg, err := config.LoadConfig(configPath)
 		if err != nil {
-			log.Fatalf("Error loading config: %v", err)
+			log.Fatalf("Error loading config from %s: %v", configPath, err)
 		}
 
 		if _, ok := cfg.Modules[moduleName]; !ok {
@@ -59,7 +59,7 @@ var removeCmd = &cobra.Command{
 			log.Fatalf("Error marshaling config: %v", err)
 		}
 
-		if err := os.WriteFile("config.yaml", data, 0644); err != nil {
+		if err := os.WriteFile(configPath, data, 0644); err != nil {
 			log.Fatalf("Error writing config file: %v", err)
 		}
 		fmt.Printf("Successfully removed module '%s'\n", moduleName)
@@ -72,13 +72,13 @@ var addCmd = &cobra.Command{
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		moduleName := args[0]
-		cfg, err := config.LoadConfig("config.yaml")
+		cfg, err := config.LoadConfig(configPath)
 		if err != nil {
 			// If file doesn't exist, create a new config
 			if os.IsNotExist(err) {
 				cfg = &config.Config{Modules: make(map[string]config.Module)}
 			} else {
-				log.Fatalf("Error loading config: %v", err)
+				log.Fatalf("Error loading config from %s: %v", configPath, err)
 			}
 		}
 
@@ -122,7 +122,7 @@ var addCmd = &cobra.Command{
 			log.Fatalf("Error marshaling config: %v", err)
 		}
 
-		if err := os.WriteFile("config.yaml", data, 0644); err != nil {
+		if err := os.WriteFile(configPath, data, 0644); err != nil {
 			log.Fatalf("Error writing config file: %v", err)
 		}
 		fmt.Printf("Successfully added module '%s'\n", moduleName)
