@@ -120,7 +120,7 @@ By default, the repo is assumed to be at ~/.dotfiles. Override with DOTM_DOTFILE
 		}
 
 		gitArgs := append([]string{"--git-dir=" + dotfilesDir, "--work-tree=" + homeDir}, args...)
-		_, err = runCommand(false, "git", gitArgs...)
+		_, err = runCommandInDir(false, homeDir, "git", gitArgs...)
 		return err
 	},
 }
@@ -139,6 +139,10 @@ func expandHomePath(path, homeDir string) (string, error) {
 }
 
 func runCommand(dryRun bool, name string, args ...string) (string, error) {
+	return runCommandInDir(dryRun, "", name, args...)
+}
+
+func runCommandInDir(dryRun bool, dir string, name string, args ...string) (string, error) {
 	if dryRun {
 		fmt.Printf("[DRY RUN] Would execute: %s\n", formatCommand(name, args))
 		return "", nil
@@ -146,6 +150,9 @@ func runCommand(dryRun bool, name string, args ...string) (string, error) {
 
 	fmt.Printf("Executing: %s\n", formatCommand(name, args))
 	command := exec.Command(name, args...)
+	if dir != "" {
+		command.Dir = dir
+	}
 	out, err := command.CombinedOutput()
 	if len(out) > 0 {
 		fmt.Print(string(out))
