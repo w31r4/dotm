@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.1] - 2026-02-05
+
+### Added
+
+- **Improved `repo sync`**
+  - Automatically backs up conflicting files during checkout/pull to `~/.dotfiles-backup/<timestamp>` and retries
+  - New flags: `--dir`, `--backup-dir`, `--pull`, `--dry-run`
+- **Dotfiles Git Passthrough**
+  - `repo git` to run arbitrary git commands against the bare dotfiles repo (`--git-dir=... --work-tree=$HOME`)
+
+### Changed
+
+- `repo sync` now configures `status.showUntrackedFiles=no` for the dotfiles repository
+- `repo sync` now pulls latest changes (fast-forward only) by default
+
 ## [0.1.0] - 2025-10-29
 
 ### Added

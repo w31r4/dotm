@@ -40,7 +40,12 @@ go build
 ./dotm repo sync --url git@github.com:your-username/your-dotfiles.git
 ```
 
-> **注意**：此初始版本不会自动处理与现有文件（例如系统默认的 `.bashrc`）的冲突。如果检出失败，您可能需要手动备份这些文件。
+> **注意**：如果检出/拉取会覆盖现有文件（例如系统默认的 `.bashrc`），`dotm` 会将这些冲突文件备份到 `~/.dotfiles-backup/<timestamp>` 并自动重试。
+
+常用参数：
+- `--dir` 修改裸仓库位置（默认为 `~/.dotfiles`）
+- `--backup-dir` 修改冲突文件的备份目录
+- `--pull=false` 跳过拉取最新变更
 
 **第二步：按需安装您的工具**
 
@@ -62,6 +67,17 @@ go build
 
 ```bash
 ./dotm install --dry-run eza
+```
+
+### 管理 Dotfiles 仓库
+
+如果您使用裸仓库工作流，可以直接用 `dotm` 执行 git 命令，而不需要再单独配置 shell alias：
+
+```bash
+./dotm repo git status
+./dotm repo git add .gitconfig
+./dotm repo git commit -m "纳入 gitconfig"
+./dotm repo git push
 ```
 
 ## 管理您的模块“仓库”

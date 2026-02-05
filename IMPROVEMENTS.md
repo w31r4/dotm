@@ -107,7 +107,7 @@ Added `version` command to display tool version.
 **使用示例 / Usage Example:**
 ```bash
 ./dotm version
-# Output: dotm version 0.1.0
+# Output: dotm version 0.1.1
 ```
 
 ### 3. Shell 补全支持 / Shell Completion Support
@@ -144,6 +144,22 @@ All commands now support `--config` flag for custom configuration file.
 ```bash
 ./dotm --config /path/to/custom-config.yaml install fzf
 ./dotm --config ./dev-config.yaml config validate
+```
+
+### 5. Dotfiles 仓库改进 / Dotfiles Repository Improvements
+
+完善了裸仓库（bare repo）工作流相关的能力：
+
+Improvements for the bare-repo dotfiles workflow:
+
+- `repo sync` 现在会自动备份检出/拉取时的冲突文件到 `~/.dotfiles-backup/<timestamp>` 并重试
+- `repo sync` 增加参数：`--dir`、`--backup-dir`、`--pull`、`--dry-run`
+- 新增 `repo git`，用于直接对裸仓库执行 git 命令（无需额外配置 shell alias）
+
+**使用示例 / Usage Examples:**
+```bash
+./dotm repo sync --url git@github.com:your-username/your-dotfiles.git
+./dotm repo git status
 ```
 
 ## 代码改进 / Code Improvements
@@ -224,6 +240,8 @@ All new features have been tested:
 ✅ `config copy` - 复制配置文件
 ✅ `version` - 显示版本信息
 ✅ `completion` - 生成 shell 补全脚本
+✅ `repo sync` - 备份冲突文件并同步仓库
+✅ `repo git` - 裸仓库 git 命令透传
 ✅ `--config` 标志 - 在所有命令中工作
 ✅ 编译无错误
 ✅ 代码格式化（gofmt）
@@ -237,6 +255,8 @@ Testing completed:
 ✅ `config copy` - Copy configuration file
 ✅ `version` - Show version info
 ✅ `completion` - Generate shell completion scripts
+✅ `repo sync` - Backup conflicts and sync repository
+✅ `repo git` - Passthrough git commands for bare repo
 ✅ `--config` flag - Works in all commands
 ✅ Builds without errors
 ✅ Code formatted (gofmt)

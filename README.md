@@ -40,7 +40,12 @@ This command clones your bare dotfiles repository to `~/.dotfiles` and checks ou
 ./dotm repo sync --url git@github.com:your-username/your-dotfiles.git
 ```
 
-> **Note**: This initial version does not automatically handle conflicts with existing files (e.g., a default `.bashrc`). You may need to back them up manually if the checkout fails.
+> **Note**: If checkout/pull would overwrite existing files (e.g., a default `.bashrc`), `dotm` will back them up to `~/.dotfiles-backup/<timestamp>` and retry.
+
+Useful flags:
+- `--dir` to change the bare repo location (default `~/.dotfiles`)
+- `--backup-dir` to change where conflicts are backed up
+- `--pull=false` to skip pulling latest changes
 
 **Step 2: On-Demand Installation**
 
@@ -62,6 +67,17 @@ To see what commands `dotm` *would* execute without actually changing anything, 
 
 ```bash
 ./dotm install --dry-run eza
+```
+
+### Managing the Dotfiles Repo
+
+If you use the bare-repo workflow, you can run git commands via `dotm` without setting up a separate shell alias:
+
+```bash
+./dotm repo git status
+./dotm repo git add .gitconfig
+./dotm repo git commit -m "Track gitconfig"
+./dotm repo git push
 ```
 
 ## Managing Your Module "Repository"
