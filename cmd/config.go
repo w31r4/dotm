@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"dotm/config"
 	"fmt"
 	"io"
 	"log"
@@ -10,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
+	"github.com/w31r4/dotm/config"
 	"gopkg.in/yaml.v3"
 )
 

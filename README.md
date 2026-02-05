@@ -17,6 +17,17 @@
 
 To use `dotm`, you need to have Go installed on your system.
 
+**Option A (Recommended): Install with `go install`**
+
+```bash
+go install github.com/w31r4/dotm@latest
+dotm version
+```
+
+Make sure `$(go env GOPATH)/bin` (or `$GOBIN`) is in your `$PATH`.
+
+**Option B: Build from source**
+
 ```bash
 # Clone the repository (or your dotfiles repo containing this tool)
 # ...

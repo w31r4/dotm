@@ -17,6 +17,17 @@
 
 要使用 `dotm`，您的系统中需要先安装 Go 环境。
 
+**方案 A（推荐）：使用 `go install` 安装**
+
+```bash
+go install github.com/w31r4/dotm@latest
+dotm version
+```
+
+请确保 `$(go env GOPATH)/bin`（或 `$GOBIN`）在您的 `$PATH` 中。
+
+**方案 B：从源码构建**
+
 ```bash
 # 克隆包含本工具的仓库（例如您的 dotfiles 仓库）
 # ...

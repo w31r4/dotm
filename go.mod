@@ -1,4 +1,4 @@
-module dotm
+module github.com/w31r4/dotm
 
 go 1.24.5
 

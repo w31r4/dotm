@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - New flags: `--dir`, `--backup-dir`, `--pull`, `--dry-run`
 - **Dotfiles Git Passthrough**
   - `repo git` to run arbitrary git commands against the bare dotfiles repo (`--git-dir=... --work-tree=$HOME`)
+- **`go install` Support**
+  - Module path updated to `github.com/w31r4/dotm` so dotm can be installed via `go install github.com/w31r4/dotm@latest`
 
 ### Changed
 

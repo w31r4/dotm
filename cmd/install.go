@@ -1,13 +1,13 @@
 package cmd
 
 import (
-	"dotm/config"
-	"dotm/pkg/executor"
-	"dotm/pkg/fileutil"
 	"fmt"
 	"log"
 
 	"github.com/spf13/cobra"
+	"github.com/w31r4/dotm/config"
+	"github.com/w31r4/dotm/pkg/executor"
+	"github.com/w31r4/dotm/pkg/fileutil"
 )
 
 var dryRun bool
